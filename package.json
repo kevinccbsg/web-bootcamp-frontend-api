@@ -1,0 +1,20 @@
+{
+  "name": "quotes-api",
+  "version": "1.0.0",
+  "description": "Quotes API for keepcodign course",
+  "main": "app.js",
+  "scripts": {
+    "start": "DEBUG=Quote:* node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Julián Martínez Escobar",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "swagger-ui-express": "^4.0.2"
+  }
+}
