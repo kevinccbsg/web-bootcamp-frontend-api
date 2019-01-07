@@ -18,6 +18,25 @@ app.use(logger(':method :url :status :response-time ms - :res[content-length]'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get('/', (req, res) => {
+  debug('Index routes');
+  return res.status(200).send(`
+    <div>
+      <h1>Quotes API</h1>
+      <ul>
+        <li>
+          <a href="/api-docs">/api-docs</a>
+        </li>
+        <li>
+          <a href="/api/v1/quote/:id">GET /api/v1/quote/:id</a>
+        </li>
+        <li>
+          <a href="/api/v1/quote/:id">POST /api/v1/quote/:id</a>
+        </li>
+      </ul>
+    </div>
+  `);
+});
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/api/v1/quote/:id', (req, res, next) => {
   const { id } = req.params;
