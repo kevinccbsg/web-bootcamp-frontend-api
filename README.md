@@ -1,6 +1,8 @@
 
 # web-bootcamp-frontend-api
 
+Simple API for web bootcamp 2018/2019 to provide quotes information and create new quotes.
+
 ## Install dependencies
 
 ```
