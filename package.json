@@ -14,7 +14,7 @@
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.16.4",
-    "morgan": "^1.9.1",
-    "swagger-ui-express": "^4.0.2"
+    "express-jsdoc-swagger": "^1.0.1",
+    "morgan": "^1.9.1"
   }
 }

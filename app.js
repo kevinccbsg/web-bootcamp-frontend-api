@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const swaggerUi = require('swagger-ui-express');
+const expressJSDocSwagger = require('express-jsdoc-swagger');
 const errorResponses = require('./errorResponses');
 const storageModule = require('./storage');
 const swaggerDocument = require('./swaggerDocument.json');
@@ -12,6 +12,21 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 const storage = storageModule();
+
+const swaggerOptions = {
+  info: {
+    description: 'Documentation for Quotes REST API',
+    title: 'QuotesAPI',
+    version: '1.0.0',
+    contact: {
+      name: 'Kevin Martínez',
+      email: 'kevinccbsg@gmail.com',
+    },
+  },
+  servers: [],
+  baseDir: __dirname,
+  filesPattern: './app**.js',
+};
 
 app.use(cors());
 app.use(logger(':method :url :status :response-time ms - :res[content-length]'));
@@ -37,7 +52,36 @@ app.get('/', (req, res) => {
     </div>
   `);
 });
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+expressJSDocSwagger(app)(swaggerOptions);
+
+
+/**
+ * @typedef {object} Error
+ * @property {number} statusCode - <span style="color: gray;font-style: italic">404</span>
+ * @property {string} error - <span style="color: gray;font-style: italic">example: Error description message</span>
+ */
+
+
+/**
+ * @typedef {object} Quote
+ * @property {number} text - Quote text
+ * @property {string} date - Quote date - date
+ */
+
+/**
+ * @typedef {object} QuoteRequest
+ * @property {number} text - Quote text
+ */
+
+/**
+ * GET /api/v1/quote/{id}
+ * @summary This an endpoint to retrieve quotes
+ * @tags Quotes - Everything about Quotes
+ * @param {string} id.path.required - Order Id
+ * @return {Quote} 200 - Success response
+ * @return {Error} default - Error
+ */
 app.get('/api/v1/quote/:id', (req, res, next) => {
   const { id } = req.params;
   if (!id) {
@@ -48,16 +92,24 @@ app.get('/api/v1/quote/:id', (req, res, next) => {
   res.json(storage.getQuote(id));
 });
 
+/**
+ * POST /api/v1/quote/{id}
+ * @summary This an endpoint to create quotes
+ * @tags Quotes - Everything about Quotes
+ * @param {string} id.path.required - Quote Id
+ * @param {QuoteRequest} request.body.required - Quote text
+ * @return {Quote} 200 - Success response
+ * @return {Error} default - Error
+ */
 app.post('/api/v1/quote/:id', (req, res, next) => {
   const { id } = req.params;
-  const { quote } = req.body;
-  console.log(req.body);
+  const { text } = req.body;
   if (!id) {
     const err = new Error('404');
     err.status = 404;
     return next(err);
   }
-  res.json(storage.saveQuote(id, { quote, date: new Date() }));
+  res.json(storage.saveQuote(id, { text, date: new Date() }));
 });
 
 // catch 404 and forward to error handler
