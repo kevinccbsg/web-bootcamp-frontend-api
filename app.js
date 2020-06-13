@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 const errorResponses = require('./errorResponses');
 const storageModule = require('./storage');
-const swaggerDocument = require('./swaggerDocument.json');
 
 const debug = require('debug')('Quote:Api');
 const PORT = process.env.PORT || 3000;
